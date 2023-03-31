@@ -1,5 +1,5 @@
 <a name="readme-top"></a>
-![](https://img.shields.io/badge/BOOKSTORE APP-skyblue)
+![](https://img.shields.io/badge/BOOKSTORE-skyblue)
 
 # 📗 Table of Contents
 
