@@ -1,25 +1,24 @@
 const ADD_BOOK = 'bookstore/books/ADD_BOOK';
 const REMOVE_BOOK = 'bookstore/books/REMOVE_BOOK';
 const books = [
+  // Initial state:
   {
-    id: 1,
-    author: 'Haruki Murakami',
-    title: 'Kafka on the Shore',
+    item_id: 'item1',
+    title: 'The Great Gatsby',
+    author: 'John Smith',
+    category: 'Fiction',
   },
   {
-    id: 2,
-    author: 'Gabriel Garcia Marquez',
-    title: 'One Hundred Years of Solitude',
+    item_id: 'item2',
+    title: 'Anna Karenina',
+    author: 'Leo Tolstoy',
+    category: 'Fiction',
   },
   {
-    id: 3,
-    author: 'Toni Morrison',
-    title: 'Beloved',
-  },
-  {
-    id: 4,
-    author: 'Octavia Butler',
-    title: 'Kindred',
+    item_id: 'item3',
+    title: 'The Selfish Gene',
+    author: 'Richard Dawkins',
+    category: 'Nonfiction',
   },
 ];
 export const addAction = (NewBook) => ({
