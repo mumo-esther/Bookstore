@@ -1,12 +1,22 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import BooksReducer from './books/books';
-import CategoriesReducer from './categories/categories';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import bookReducer from './books/books';
+import catagoriesReducer from './categories/categories';
 
 const rootReducer = combineReducers({
-  BooksReducer, CategoriesReducer,
+  books: bookReducer,
+  categories: catagoriesReducer,
 });
 const store = configureStore({
   reducer: rootReducer,
-  devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [
+        'books/getAllBooks//fulfilled',
+        'books/removeBook//fulfilled',
+        'books/addBook/fulfilled',
+      ],
+    },
+  }),
 });
+
 export default store;
