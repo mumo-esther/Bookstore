@@ -1,51 +1,66 @@
-const ADD_BOOK = 'bookstore/books/ADD_BOOK';
-const REMOVE_BOOK = 'bookstore/books/REMOVE_BOOK';
-const books = [
-  // Initial state:
-  {
-    item_id: 'item1',
-    title: 'The Great Gatsby',
-    author: 'John Smith',
-    category: 'Fiction',
-  },
-  {
-    item_id: 'item2',
-    title: 'Anna Karenina',
-    author: 'Leo Tolstoy',
-    category: 'Fiction',
-  },
-  {
-    item_id: 'item3',
-    title: 'The Selfish Gene',
-    author: 'Richard Dawkins',
-    category: 'Nonfiction',
-  },
-];
-export const addAction = (NewBook) => ({
-  type: ADD_BOOK,
-  payload: NewBook,
-});
-export const removeAction = (id) => ({
-  type: REMOVE_BOOK,
-  id,
-});
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const BooksReducer = (state = books, action) => {
-  switch (action.type) {
-    case ADD_BOOK:
-      return [
-        ...state,
-        {
-          id: Date.now(),
-          title: action.payload.title,
-          author: action.payload.author,
-        },
-      ];
-    case REMOVE_BOOK:
-      return state.filter((book) => book.id !== action.id);
-    default:
-      return state;
+const baseUrl = 'https://us-central1-bookstore-api-e63c8.cloudfunctions.net/bookstoreApi';
+const apiKey = 'cIJOb04STK2jPay6BFZA';
+
+export const getBooks = createAsyncThunk('books/getAllBooks/', async () => {
+  try {
+    return axios.get(`${baseUrl}/apps/${apiKey}/books/`);
+  } catch (error) {
+    return error;
   }
-};
+});
 
-export default BooksReducer;
+export const addBook = createAsyncThunk('books/addBook', async (book) => {
+  try {
+    return axios.post(`${baseUrl}/apps/${apiKey}/books`, book);
+  } catch (error) {
+    return error;
+  }
+});
+
+export const removeBook = createAsyncThunk('books/removeBook/', async (id) => {
+  try {
+    return axios.delete(`${baseUrl}/apps/${apiKey}/books/${id}`);
+  } catch (error) {
+    return error;
+  }
+});
+
+const initialState = [];
+
+export const booksSlice = createSlice({
+  name: 'books',
+  initialState,
+  extraReducers: (builder) => {
+    builder.addCase(getBooks.fulfilled, (state, action) => {
+      const books = Object.keys(action.payload.data).map((key) => {
+        const book = action.payload.data[key][0];
+
+        return {
+          id: key,
+          ...book,
+        };
+      });
+      return books;
+    });
+
+    builder.addCase(addBook.fulfilled, (state, action) => {
+      const newBook = {
+        id: action.meta.arg.item_id,
+        title: action.meta.arg.title,
+        author: action.meta.arg.author,
+      };
+      state.push(newBook);
+      return state;
+    });
+
+    builder.addCase(removeBook.fulfilled, (state, action) => {
+      const newState = state.filter((book) => book.id !== action.meta.arg);
+      return newState;
+    });
+  },
+});
+
+export default booksSlice.reducer;
