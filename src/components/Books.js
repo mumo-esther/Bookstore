@@ -10,7 +10,7 @@ const Books = () => {
 
   useEffect(() => {
     dispatch(getBooksFunc());
-  }, []);
+  }, [dispatch]);
 
   const AddNewBook = (e, NewBook) => {
     e.preventDefault();
