@@ -11,8 +11,6 @@
 }
 
 form input {
-  width: 41.5rem;
-  height: 2.8rem;
   box-sizing: border-box;
   padding: 1rem;
   border-radius: 4px;
@@ -37,7 +35,7 @@ form input {
   border-radius: 3px;
   border: 1px solid white;
   color: white;
-  background-color: #a04000;
+  background-color: blue;
 }
 
 .add-new-book {

@@ -12,10 +12,10 @@ function Book(props) {
   };
   return (
     <div className={style['book-wrapper']}>
-      <div>
-        <h1 className={style.catagory}>Action</h1>
-        <h1 className={style.title}>{title}</h1>
-        <h2 className={style.author}>{author}</h2>
+      <div className={style.book}>
+        <h1 className={style.category}>Action</h1>
+        <h3 className={style.title}>{title}</h3>
+        <p className={style.author}>{author}</p>
         <div className={style['inner-dev']}>
           <button type="submit">Comment</button>
           <div className={style.bar} />
